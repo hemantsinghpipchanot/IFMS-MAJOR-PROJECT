@@ -27,7 +27,7 @@ const CreateProject = () => {
     e.preventDefault();
     const gpNumber = `GP${new Date().getFullYear()}${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`;
     toast.success(`Project created successfully! GP Number: ${gpNumber}`);
-    navigate("/admin/projects");
+    navigate("/admin");
   };
 
   return (
@@ -148,7 +148,7 @@ const CreateProject = () => {
               </div>
 
               <div className="flex gap-2">
-                <Button type="submit">Create Project & Generate GP Number</Button>
+                <Button type="submit">Create Project &amp; Generate GP Number</Button>
                 <Button type="button" variant="outline" onClick={() => navigate("/admin")}>
                   Cancel
                 </Button>

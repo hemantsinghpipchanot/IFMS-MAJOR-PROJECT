@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { login } from "@/lib/auth";
 import { toast } from "sonner";
-import { Building2, Lock, Mail } from "lucide-react";
+import { Building2, Lock, Mail, Sparkles } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,73 +32,116 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-accent/5 p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
-            <Building2 className="h-8 w-8 text-primary" />
+    <div className="min-h-screen flex items-center justify-center gradient-mesh p-4 animate-gradient relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10 animate-fade-in">
+        {/* Logo Section */}
+        <div className="text-center mb-8 animate-slide-up">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-primary mb-4 shadow-glow hover:scale-110 transition-transform duration-300">
+            <Building2 className="h-10 w-10 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground">IFMS</h1>
-          <p className="text-muted-foreground mt-2">Institute Financial Management System</p>
+          <h1 className="text-4xl font-bold gradient-text mb-2">IFMS</h1>
+          <p className="text-muted-foreground">Institute Financial Management System</p>
         </div>
 
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle>Sign In</CardTitle>
+        {/* Login Card with Glassmorphism */}
+        <Card className="shadow-elevated backdrop-blur-sm bg-card/95 border-2 hover:shadow-glow transition-all duration-300 animate-scale-in">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
             <CardDescription>Enter your credentials to access the system</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-5">
+              {/* Email Input */}
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Label htmlFor="email" className="text-sm font-semibold">Email</Label>
+                <div className="relative group">
+                  <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-200" />
                   <Input
                     id="email"
                     type="email"
                     placeholder="your.email@ifms.edu"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
+                    className="pl-11 h-11 border-2 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                     required
                   />
                 </div>
               </div>
 
+              {/* Password Input */}
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                <Label htmlFor="password" className="text-sm font-semibold">Password</Label>
+                <div className="relative group">
+                  <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors duration-200" />
                   <Input
                     id="password"
                     type="password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="pl-10"
+                    className="pl-11 h-11 border-2 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200"
                     required
                   />
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Signing in..." : "Sign In"}
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                className="w-full h-11 font-semibold bg-gradient-primary hover:shadow-glow transition-all duration-300 hover:scale-[1.02]"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Signing in...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    Sign In
+                  </span>
+                )}
               </Button>
 
-              <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                <p className="text-sm font-semibold mb-2">Demo Credentials:</p>
-                <div className="text-xs space-y-1 text-muted-foreground">
-                  <p>Admin: admin@ifms.edu</p>
-                  <p>PI: pi@ifms.edu</p>
-                  <p>AR: ar@ifms.edu</p>
-                  <p>DR: dr@ifms.edu</p>
-                  <p>AO2: ao2@ifms.edu</p>
-                  <p className="mt-2">Password: password123</p>
+              {/* Demo Credentials */}
+              <div className="mt-6 p-4 bg-gradient-to-br from-muted/50 to-muted rounded-xl border border-border/50 backdrop-blur-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+                  <p className="text-sm font-bold text-foreground">Demo Credentials</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="space-y-1">
+                    <p className="font-semibold text-muted-foreground">Roles:</p>
+                    <p className="text-foreground">Admin</p>
+                    <p className="text-foreground">PI</p>
+                    <p className="text-foreground">AR / DR / AO2</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="font-semibold text-muted-foreground">Access:</p>
+                    <p className="text-foreground">admin@ifms.edu</p>
+                    <p className="text-foreground">pi@ifms.edu</p>
+                    <p className="text-foreground">[role]@ifms.edu</p>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-border/50">
+                  <p className="text-xs"><span className="font-semibold text-muted-foreground">Password:</span> <span className="font-mono text-foreground">password123</span></p>
                 </div>
               </div>
             </form>
           </CardContent>
         </Card>
+
+        {/* Footer */}
+        <p className="text-center text-sm text-muted-foreground mt-6">
+          Secure financial management for educational institutions
+        </p>
       </div>
     </div>
   );

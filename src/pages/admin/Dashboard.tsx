@@ -11,6 +11,7 @@ import {
   DollarSign,
   CheckCircle,
   Clock,
+  FileCheck,
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -49,6 +50,12 @@ const AdminDashboard = () => {
 
   const quickActions = [
     {
+      title: "Create Project",
+      description: "Register a new research project and assign GP number",
+      icon: FolderKanban,
+      path: "/admin/create-project",
+    },
+    {
       title: "Manage Departments",
       description: "Add or edit department details and HODs",
       icon: Building2,
@@ -61,10 +68,10 @@ const AdminDashboard = () => {
       path: "/admin/register-pi",
     },
     {
-      title: "Create Project",
-      description: "Create new project and assign GP number",
-      icon: FolderKanban,
-      path: "/admin/create-project",
+      title: "Budget Verification",
+      description: "Verify and forward budget requests to AR",
+      icon: FileCheck,
+      path: "/admin/budget-review",
     },
     {
       title: "Manage Projects",

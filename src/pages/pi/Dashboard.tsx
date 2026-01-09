@@ -3,7 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { mockProjects, mockBudgetRequests } from "@/lib/mockData";
+import { WorkflowManager } from "@/lib/workflowManager";
 import { StatusBadge } from "@/components/StatusBadge";
+import { formatDate } from "@/lib/utils";
 import {
   FolderKanban,
   Plus,
@@ -60,10 +62,12 @@ const PIDashboard = () => {
             <h1 className="text-3xl font-bold text-foreground">PI Dashboard</h1>
             <p className="text-muted-foreground mt-1">Manage your projects and budget requests</p>
           </div>
-          <Button onClick={() => navigate("/pi/book-budget")} className="gap-2">
-            <Plus className="h-4 w-4" />
-            Book Budget
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => navigate("/pi/book-budget")} className="gap-2">
+              <Plus className="h-4 w-4" />
+              Book Budget
+            </Button>
+          </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -105,6 +109,7 @@ const PIDashboard = () => {
                   <TableRow key={project.id}>
                     <TableCell className="font-medium">{project.gpNumber}</TableCell>
                     <TableCell>{project.title}</TableCell>
+                    <TableCell>{formatDate(project.createdAt)}</TableCell>
                     <TableCell className="capitalize">{project.type}</TableCell>
                     <TableCell>
                       <StatusBadge status={project.status} />
@@ -155,7 +160,7 @@ const PIDashboard = () => {
               <TableBody>
                 {myRequests.map((request) => (
                   <TableRow key={request.id}>
-                    <TableCell>{new Date(request.createdAt).toLocaleDateString()}</TableCell>
+                    <TableCell>{formatDate(request.createdAt)}</TableCell>
                     <TableCell className="font-medium">{request.gpNumber}</TableCell>
                     <TableCell className="max-w-xs truncate">{request.purpose}</TableCell>
                     <TableCell className="text-right">
@@ -165,7 +170,7 @@ const PIDashboard = () => {
                       <StatusBadge status={request.status} />
                     </TableCell>
                     <TableCell className="uppercase text-xs font-semibold">
-                      {request.currentStage}
+                      {WorkflowManager.getStageDisplay(request)}
                     </TableCell>
                     <TableCell>
                       <Button variant="ghost" size="sm">

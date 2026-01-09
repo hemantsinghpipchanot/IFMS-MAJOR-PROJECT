@@ -27,21 +27,37 @@ export interface Project {
   letterDate?: string;
 }
 
+export interface ApprovalLog {
+  role: "pi" | "admin" | "ar" | "dr" | "ao2";
+  action: "created" | "forwarded" | "approved" | "rejected";
+  timestamp: string;
+  remarks?: string;
+  actor: string;
+}
+
 export interface BudgetRequest {
   id: string;
   projectId: string;
   gpNumber: string;
   projectTitle: string;
+  projectType: "recurring" | "non-recurring";
   piName: string;
+  piEmail: string;
   amount: number;
   purpose: string;
+  description: string;
+  invoiceNumber: string;
   status: Status;
-  currentStage: "pi" | "ar" | "dr" | "ao2" | "completed";
+  currentStage: "admin" | "ar" | "dr" | "ao2" | "completed";
+  nextApprover: "admin" | "ar" | "dr" | "ao2" | "completed";
   createdAt: string;
+  adminForwardedAt?: string;
   arApprovedAt?: string;
   drApprovedAt?: string;
   ao2ApprovedAt?: string;
-  remarks?: string;
+  rejectedAt?: string;
+  rejectionRemarks?: string;
+  approvalLogs: ApprovalLog[];
 }
 
 export interface ProjectHead {
@@ -124,26 +140,113 @@ export const mockBudgetRequests: BudgetRequest[] = [
     projectId: "1",
     gpNumber: "GP2024001",
     projectTitle: "AI Research in Healthcare",
+    projectType: "recurring",
     piName: "Dr. John Smith",
+    piEmail: "pi@ifms.edu",
     amount: 250000,
     purpose: "Purchase of GPU servers for deep learning",
+    description: "Need high-performance GPU servers for training deep learning models",
+    invoiceNumber: "INV-2024-001",
     status: "pending",
-    currentStage: "ar",
-    createdAt: "2024-03-15",
+    currentStage: "admin",
+    nextApprover: "admin",
+    createdAt: "2024-03-15T10:00:00Z",
+    approvalLogs: [
+      {
+        role: "pi",
+        action: "created",
+        timestamp: "2024-03-15T10:00:00Z",
+        actor: "Dr. John Smith",
+      },
+    ],
   },
   {
     id: "2",
     projectId: "1",
     gpNumber: "GP2024001",
     projectTitle: "AI Research in Healthcare",
+    projectType: "recurring",
     piName: "Dr. John Smith",
+    piEmail: "pi@ifms.edu",
     amount: 150000,
     purpose: "Conference travel and registration",
+    description: "Attend international AI conference to present research findings",
+    invoiceNumber: "INV-2024-002",
     status: "approved",
     currentStage: "completed",
-    createdAt: "2024-02-20",
-    arApprovedAt: "2024-02-21",
-    drApprovedAt: "2024-02-22",
-    ao2ApprovedAt: "2024-02-23",
+    nextApprover: "completed",
+    createdAt: "2024-02-20T09:00:00Z",
+    adminForwardedAt: "2024-02-20T11:00:00Z",
+    arApprovedAt: "2024-02-21T14:00:00Z",
+    drApprovedAt: "2024-02-22T10:30:00Z",
+    ao2ApprovedAt: "2024-02-23T16:00:00Z",
+    approvalLogs: [
+      {
+        role: "pi",
+        action: "created",
+        timestamp: "2024-02-20T09:00:00Z",
+        actor: "Dr. John Smith",
+      },
+      {
+        role: "admin",
+        action: "forwarded",
+        timestamp: "2024-02-20T11:00:00Z",
+        actor: "Admin User",
+        remarks: "Verified and forwarded to AR",
+      },
+      {
+        role: "ar",
+        action: "approved",
+        timestamp: "2024-02-21T14:00:00Z",
+        actor: "AR Officer",
+        remarks: "Approved for further processing",
+      },
+      {
+        role: "dr",
+        action: "approved",
+        timestamp: "2024-02-22T10:30:00Z",
+        actor: "DR Officer",
+      },
+      {
+        role: "ao2",
+        action: "approved",
+        timestamp: "2024-02-23T16:00:00Z",
+        actor: "AO2 Officer",
+        remarks: "Final approval granted",
+      },
+    ],
+  },
+  {
+    id: "3",
+    projectId: "1",
+    gpNumber: "GP2024001",
+    projectTitle: "AI Research in Healthcare",
+    projectType: "recurring",
+    piName: "Dr. John Smith",
+    piEmail: "pi@ifms.edu",
+    amount: 75000,
+    purpose: "Lab consumables and chemicals",
+    description: "Purchase of reagents and consumables for experiments",
+    invoiceNumber: "INV-2024-003",
+    status: "pending",
+    currentStage: "ar",
+    nextApprover: "ar",
+    createdAt: "2024-03-10T08:30:00Z",
+    adminForwardedAt: "2024-03-10T15:00:00Z",
+    approvalLogs: [
+      {
+        role: "pi",
+        action: "created",
+        timestamp: "2024-03-10T08:30:00Z",
+        actor: "Dr. John Smith",
+      },
+      {
+        role: "admin",
+        action: "forwarded",
+        timestamp: "2024-03-10T15:00:00Z",
+        actor: "Admin User",
+        remarks: "Documents verified, forwarded to AR",
+      },
+    ],
   },
 ];

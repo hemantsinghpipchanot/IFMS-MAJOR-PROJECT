@@ -8,10 +8,11 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Departments from "./pages/admin/Departments";
 import RegisterPI from "./pages/admin/RegisterPI";
-import CreateProject from "./pages/admin/CreateProject";
+import CreateProject from "./pages/pi/CreateProject";
 import Projects from "./pages/admin/Projects";
 import ReleaseFunds from "./pages/admin/ReleaseFunds";
 import ProjectHeads from "./pages/admin/ProjectHeads";
+import BudgetReview from "./pages/admin/BudgetReview";
 import PIDashboard from "./pages/pi/Dashboard";
 import BookBudget from "./pages/pi/BookBudget";
 import ARDashboard from "./pages/approvals/ARDashboard";
@@ -23,15 +24,15 @@ const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode; allowedRoles: string[] }) => {
   const user = getCurrentUser();
-  
+
   if (!user) {
     return <Navigate to="/" replace />;
   }
-  
+
   if (!allowedRoles.includes(user.role)) {
     return <Navigate to={`/${user.role}`} replace />;
   }
-  
+
   return <>{children}</>;
 };
 
@@ -96,6 +97,14 @@ const App = () => (
             element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <ProjectHeads />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/budget-review"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <BudgetReview />
               </ProtectedRoute>
             }
           />

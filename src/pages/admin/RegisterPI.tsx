@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useState } from "react";
 import { mockDepartments } from "@/lib/mockData";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Pencil, Trash2, UserPlus } from "lucide-react";
+import { Plus, Pencil, Trash2, UserPlus, Mail, Phone, Building, Award, Users } from "lucide-react";
 import { toast } from "sonner";
 
 interface PI {
@@ -53,7 +53,8 @@ const RegisterPI = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-6 animate-fade-in">
+        {/* Page Header */}
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Register PI</h1>
@@ -61,22 +62,21 @@ const RegisterPI = () => {
               Register and manage Principal Investigators
             </p>
           </div>
-          <Button onClick={() => setShowForm(!showForm)} className="gap-2">
+          <Button
+            onClick={() => setShowForm(!showForm)}
+            className="gap-2 h-11"
+          >
             <Plus className="h-4 w-4" />
             Register New PI
           </Button>
         </div>
 
+        {/* Registration Form */}
         {showForm && (
-          <Card>
+          <Card className="shadow-soft border animate-scale-in">
             <CardHeader>
-              <div className="flex items-center gap-2">
-                <UserPlus className="h-5 w-5 text-primary" />
-                <div>
-                  <CardTitle>Register New Principal Investigator</CardTitle>
-                  <CardDescription>Enter PI details to register in the system</CardDescription>
-                </div>
-              </div>
+              <CardTitle className="text-xl font-semibold">Register New Principal Investigator</CardTitle>
+              <CardDescription>Enter PI details to register in the system</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -155,9 +155,19 @@ const RegisterPI = () => {
                   </Select>
                 </div>
 
-                <div className="flex gap-2">
-                  <Button type="submit">Register PI</Button>
-                  <Button type="button" variant="outline" onClick={() => setShowForm(false)}>
+                <div className="flex gap-3 pt-2">
+                  <Button
+                    type="submit"
+                    className="gap-2"
+                  >
+                    <UserPlus className="h-4 w-4" />
+                    Register PI
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setShowForm(false)}
+                  >
                     Cancel
                   </Button>
                 </div>
@@ -166,43 +176,54 @@ const RegisterPI = () => {
           </Card>
         )}
 
-        <Card>
+        {/* PI List Table */}
+        <Card className="shadow-soft border">
           <CardHeader>
-            <CardTitle>Registered Principal Investigators</CardTitle>
+            <CardTitle className="text-xl font-semibold">Registered Principal Investigators</CardTitle>
             <CardDescription>List of all registered PIs in the system</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Department</TableHead>
-                  <TableHead>Designation</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pis.map((pi) => (
-                  <TableRow key={pi.id}>
-                    <TableCell className="font-medium">{pi.name}</TableCell>
-                    <TableCell>{pi.email}</TableCell>
-                    <TableCell>{pi.phone}</TableCell>
-                    <TableCell>{pi.department}</TableCell>
-                    <TableCell>{pi.designation}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="sm">
-                        <Pencil className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" className="text-destructive">
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="font-semibold">Name</TableHead>
+                    <TableHead className="font-semibold">Email</TableHead>
+                    <TableHead className="font-semibold">Phone</TableHead>
+                    <TableHead className="font-semibold">Department</TableHead>
+                    <TableHead className="font-semibold">Designation</TableHead>
+                    <TableHead className="text-right font-semibold">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody className="table-zebra">
+                  {pis.map((pi) => (
+                    <TableRow key={pi.id}>
+                      <TableCell className="font-medium">{pi.name}</TableCell>
+                      <TableCell>{pi.email}</TableCell>
+                      <TableCell>{pi.phone}</TableCell>
+                      <TableCell>
+                        <span className="badge-institutional">
+                          {pi.department}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center px-3 py-1 rounded-full bg-success/10 border border-success/30 text-success text-sm font-semibold">
+                          {pi.designation}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button variant="ghost" size="sm" className="hover:bg-destructive/10 hover:text-destructive">
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </CardContent>
         </Card>
       </div>
